@@ -20,9 +20,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:text="추가설정"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -41,9 +39,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:text="기본설정"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -67,12 +63,13 @@
             android:text="백업주기"
             android:textColor="#ffffff"
             android:textSize="20sp" />
-
+        
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawSelectorOnTop="True" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -91,7 +88,7 @@
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawSelectorOnTop="True" />

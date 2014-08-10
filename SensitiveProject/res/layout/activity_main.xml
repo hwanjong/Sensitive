@@ -2,220 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@drawable/background"
     android:orientation="vertical" >
 
-    <TextView
+    <TextView 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ABF200"
         android:gravity="center"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:text="추가기능설정"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
+        android:text="임시메인"/>
+    <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="주행중 설정"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#FFF" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
+        android:orientation="horizontal">
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="자동신고"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/wifiOn"
-            android:layout_width="wrap_content"
+            android:text="activity1"
+            android:id="@+id/activity1"/>
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="ON"
-            android:textColor="#ffffff" />
-
-        <Button
-            android:id="@+id/wifiOff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF" />
+            android:text="activity2"
+            android:id="@+id/activity2"/>
     </LinearLayout>
-
-    <LinearLayout
+        <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
+        android:orientation="horizontal">
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="OBD-2표시"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/muteOn"
-            android:layout_width="wrap_content"
+            android:text="activity3"
+            android:id="@+id/activity3"/>
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="ON" />
-
-        <Button
-            android:id="@+id/muteOff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF"
-            android:textColor="#ffffff" />
+            android:text="activity4"
+            android:id="@+id/activity4"/>
     </LinearLayout>
-
-    <LinearLayout
+        <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
+        android:orientation="horizontal">
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="자동시작"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/vibrateOn"
-            android:layout_width="wrap_content"
+            android:text="activity5"
+            android:id="@+id/activity5"/>
+        <Button 
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="ON" />
-
-        <Button
-            android:id="@+id/vibrateOff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF"
-            android:textColor="#ffffff" />
+            android:text="activity6"
+            android:id="@+id/activity6"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="음성녹화"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/dfdf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ON" />
-
-        <Button
-            android:id="@+id/dfdf2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF"
-            android:textColor="#ffffff" />
-    </LinearLayout>
-     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:text="비주행 설정"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#FFF" />
-     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="충격감지녹화"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/ff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ON" />
-
-        <Button
-            android:id="@+id/ff2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF"
-            android:textColor="#ffffff" />
-    </LinearLayout>
-     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:paddingTop="5dp" >
-
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="충격알림전송"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/rr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ON" />
-
-        <Button
-            android:id="@+id/rr2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="OFF"
-            android:textColor="#ffffff" />
-    </LinearLayout>
+        
 
 </LinearLayout>

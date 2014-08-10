@@ -9,6 +9,7 @@ package com.example.sensitive;
 
 public final class R {
     public static final class array {
+        public static final int save_quality=0x7f040001;
         public static final int selected=0x7f040000;
     }
     public static final class attr {
@@ -28,25 +29,33 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000e;
-        public static final int dfdf=0x7f090006;
-        public static final int dfdf2=0x7f090007;
-        public static final int ff=0x7f090008;
-        public static final int ff2=0x7f090009;
-        public static final int muteOff=0x7f090003;
-        public static final int muteOn=0x7f090002;
-        public static final int rr=0x7f09000a;
-        public static final int rr2=0x7f09000b;
-        public static final int selectButton=0x7f09000c;
-        public static final int spinner=0x7f09000d;
-        public static final int vibrateOff=0x7f090005;
-        public static final int vibrateOn=0x7f090004;
-        public static final int wifiOff=0x7f090001;
-        public static final int wifiOn=0x7f090000;
+        public static final int action_settings=0x7f090015;
+        public static final int activity1=0x7f090000;
+        public static final int activity2=0x7f090001;
+        public static final int activity3=0x7f090002;
+        public static final int activity4=0x7f090003;
+        public static final int activity5=0x7f090004;
+        public static final int activity6=0x7f090005;
+        public static final int dfdf=0x7f09000c;
+        public static final int dfdf2=0x7f09000d;
+        public static final int ff=0x7f09000e;
+        public static final int ff2=0x7f09000f;
+        public static final int muteOff=0x7f090009;
+        public static final int muteOn=0x7f090008;
+        public static final int rr=0x7f090010;
+        public static final int rr2=0x7f090011;
+        public static final int selectButton=0x7f090012;
+        public static final int spinner1=0x7f090013;
+        public static final int spinner2=0x7f090014;
+        public static final int vibrateOff=0x7f09000b;
+        public static final int vibrateOn=0x7f09000a;
+        public static final int wifiOff=0x7f090007;
+        public static final int wifiOn=0x7f090006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int activity_setting=0x7f030001;
+        public static final int activity_select_settig=0x7f030001;
+        public static final int activity_setting=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f080000;
