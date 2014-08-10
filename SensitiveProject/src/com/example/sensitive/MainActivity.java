@@ -40,6 +40,27 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		button3= (Button) findViewById(R.id.activity3);
+		button3.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, ListActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		button4= (Button) findViewById(R.id.activity4);
+		button4.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, WaitActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override

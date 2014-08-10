@@ -24,6 +24,8 @@
         </activity>
         <activity android:name="SettingActivity"></activity>
         <activity android:name="SelectSetActivity"></activity>
+        <activity android:name="ListActivity"></activity>
+        <activity android:name="WaitActivity"></activity>
     </application>
 
 </manifest>
