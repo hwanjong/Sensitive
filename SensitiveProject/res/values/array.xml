@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <string-array name="selected">
+
+    <string-array name="selected">
         <item>7일</item>
         <item>10일</item>
         <item>15일</item>
         <item>30일</item>
     </string-array>
-    
-     <string-array name="save_quality">
+    <string-array name="save_quality">
         <item>High</item>
         <item>Middle</item>
         <item>Low</item>
         <item>Animation</item>
     </string-array>
+    <string-array name="term">
+        <item>30분</item>
+        <item>60분</item>
+        <item>120분</item>
+    </string-array>
+        <string-array name="accel">
+        <item>High</item>
+        <item>Middle</item>
+        <item>Low</item>
+    </string-array>
+
 </resources>

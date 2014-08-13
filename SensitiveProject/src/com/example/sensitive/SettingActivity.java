@@ -35,8 +35,8 @@ public class SettingActivity extends Activity {
 	}
 	
 	void makeSpinner(){
-		Spinner spinner1,spinner2;
-		ArrayAdapter adapter1,adapter2;
+		Spinner spinner1,spinner2,spinner3,spinner4;
+		ArrayAdapter adapter1,adapter2,adapter3,adapter4;
 		
 		spinner1 = (Spinner) findViewById(R.id.spinner1);
 		adapter1 = ArrayAdapter.createFromResource(this, R.array.selected, android.R.layout.simple_spinner_item);
@@ -47,6 +47,16 @@ public class SettingActivity extends Activity {
 		adapter2 = ArrayAdapter.createFromResource(this, R.array.save_quality, android.R.layout.simple_spinner_item);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner2.setAdapter(adapter2);
+		
+		spinner3 = (Spinner) findViewById(R.id.spinner3);
+		adapter3 = ArrayAdapter.createFromResource(this, R.array.term, android.R.layout.simple_spinner_item);
+		adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner3.setAdapter(adapter3);
+		
+		spinner4 = (Spinner) findViewById(R.id.spinner4);
+		adapter4 = ArrayAdapter.createFromResource(this, R.array.accel, android.R.layout.simple_spinner_item);
+		adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner4.setAdapter(adapter4);
 
 		
 	}
