@@ -61,6 +61,28 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+		
+		button5= (Button) findViewById(R.id.activity5);
+		button5.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		button6= (Button) findViewById(R.id.activity6);
+		button6.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
