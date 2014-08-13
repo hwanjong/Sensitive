@@ -11,5 +11,4 @@ public class WaitActivity extends Activity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_wating);
 	}
-
 }
