@@ -38,19 +38,20 @@
    	<LinearLayout         
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:orientation="vertical" >
+        
         <LinearLayout         
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:layout_marginRight="10dp"
+        	android:padding="10dp"
         	android:orientation="horizontal" >
-
-        	<RadioButton 
-           		android:id="@+id/rbnt1"
+		
+        	<CheckBox 
+           		android:id="@+id/check1"
             	android:layout_width="wrap_content"
             	android:layout_height="wrap_content"
+            	android:layout_marginTop="65dp"
             	android:layout_marginRight="10dp"/>
         	
         	<LinearLayout
@@ -65,8 +66,8 @@
            			android:id="@+id/imageBnt"
            			android:src="@drawable/picture"
             		android:padding="5px"
-            		android:maxWidth="50dp"
-            		android:maxHeight="50dp"
+            		android:maxWidth="150dp"
+            		android:maxHeight="150dp"
             		android:scaleType="fitStart"
             		android:adjustViewBounds="true"
             		android:layout_marginRight="10dp"/>
@@ -74,39 +75,44 @@
 		    		android:layout_width="fill_parent"
       				android:layout_height="wrap_content"
         			android:layout_gravity="right"
-        			android:paddingTop="20dp"
-        			android:text="날짜 2014/8/10/일"
+        			android:paddingTop="120dp"
+        			android:text="2014/8/10/일"
         			android:textSize="20sp"/>      	    
         	</LinearLayout>    	    
         </LinearLayout>   
-                <LinearLayout         
+        
+        <View
+       		android:layout_width="match_parent"
+        	android:layout_height="2dp"
+        	android:background="#000" />
+        
+        <LinearLayout         
         	android:layout_width="fill_parent"
+        	android:padding="10dp"        	
         	android:layout_height="wrap_content"
-        	android:layout_marginTop="10dp"
-        	android:layout_marginBottom="10dp"
-        	android:layout_marginRight="10dp"
         	android:orientation="horizontal" >
 
-        	<RadioButton 
-           		android:id="@+id/rbnt2"
+        	<CheckBox 
+           		android:id="@+id/check2"
             	android:layout_width="wrap_content"
             	android:layout_height="wrap_content"
-            	android:layout_marginRight="10dp"/>
+            	android:layout_marginTop="65dp"/>
         	
         	<LinearLayout
 				android:layout_width="wrap_content"
         		android:layout_height="wrap_content"
         		android:layout_marginRight="10dp"
+				android:padding="10dp"        		
         		android:orientation="horizontal">   
         		
         		<ImageButton 
             		android:layout_width="wrap_content"
           			android:layout_height="wrap_content"
            			android:id="@+id/imageBnt2"
-           			android:src="@drawable/ic_launcher"
+           			android:src="@drawable/picture"
             		android:padding="5px"
-            		android:maxWidth="50dp"
-            		android:maxHeight="50dp"
+            		android:maxWidth="150dp"
+            		android:maxHeight="150dp"
             		android:scaleType="fitStart"
             		android:adjustViewBounds="true"
             		android:layout_marginRight="10dp"/>
@@ -114,8 +120,8 @@
 		    		android:layout_width="wrap_content"
       				android:layout_height="wrap_content"
         			android:layout_gravity="right"
-        			android:paddingTop="20dp"
-        			android:text="날짜 2014/8/10/일"
+        			android:paddingTop="120dp"
+        			android:text="2014/8/10/일"
         			android:textSize="20sp"/>       	
 			</LinearLayout>
 		</LinearLayout>
