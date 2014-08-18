@@ -10,15 +10,20 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.util.*;
 import android.os.*;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CameraActivity extends Activity implements SurfaceHolder.Callback, Handler.Callback {
 	final private String TAG = "CamTest";
-	
 	private static String Path = "";
+	
+	// 분할 시간 변수 (ms단위)
+	private static long RECORDE_TIME = 10000;
+	
+	// 해상도 설정 변수
+	private static int WIDTH;
+	private static int HEIGHT;
 
 	// handler command
 	final private int START_RECORDING = 1;
@@ -94,9 +99,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 	}
 
 	protected void startIntervalRecording() {
-		mTimer = new CountDownTimer(10000, 1000) { // 10초동안 1초간격으로 줄어든다.
+		mTimer = new CountDownTimer(RECORDE_TIME, 1000) { // 10초동안 1초간격으로 줄어든다.
 			boolean recordStart = false;
-
+	
 			public void onTick(long millisUntilFinished) {
 				if (!recordStart) {
 					recordStart = true;
@@ -104,14 +109,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 					mHandler.sendEmptyMessage(START_RECORDING);
 				}
 			}
-
+		
 			public void onFinish() {
 				mHandler.sendEmptyMessage(STOP_RECORDING);
 				mHandler.sendEmptyMessage(RELEASE_RECORDER);
 				mHandler.sendEmptyMessage(START_INTERVAL_RECORD);
 			}
 		};
-		mTimer.start();
+	
+	mTimer.start();
 	}
 
 	protected void initMediaRecorder() {
@@ -142,13 +148,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 		mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
 		mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		
-		// 영상 옵션 설정
+		// 영상 옵션 설정 (화질 관련)
 		mMediaRecorder.setVideoFrameRate(30);
 		mMediaRecorder.setVideoSize(640, 480);
 		
 		
 		//녹화도중에 녹화화면을 뷰에다가 출력하게 해주는 설정
 		mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
+		
 		try {
 			mMediaRecorder.prepare();
 		} catch (Exception ex) {
