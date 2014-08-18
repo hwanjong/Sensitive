@@ -1,137 +1,211 @@
 package com.example.sensitive;
 
-import java.io.IOException;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.Window;
+import android.media.*;
+import android.view.*;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
+import android.util.*;
+import android.os.*;
 
-public class CameraActivity extends Activity implements SurfaceHolder.Callback {
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	private MediaRecorder mRecorder = null;
-	private Button mPlayBtn;
-	private TextView userId;
-	private boolean mIsStart = false;
-	private String Path = "";
-	private SurfaceView mPreview;
-	private SurfaceHolder mHolder;
-	VideoView mVideo;
-	private static int fileIndex = 0;
-	private Camera mCamera;
+public class CameraActivity extends Activity implements SurfaceHolder.Callback, Handler.Callback {
+	final private String TAG = "CamTest";
+	
+	private static String Path = "";
 
+	// handler command
+	final private int START_RECORDING = 1;
+	final private int STOP_RECORDING = 2;
+	final private int INIT_RECORDER = 3;
+	final private int RELEASE_RECORDER = 4;
+	final private int START_INTERVAL_RECORD = 5;
+	
+	private SurfaceHolder mSurfaceHolder = null;
+	private MediaRecorder mMediaRecorder = null;
+	
+	private Handler mHandler;
+	private CountDownTimer mTimer = null;
+	
+	private Camera camera;
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE); // 상단 타이틀바 없애기
+		// 상단 타이틀바 없애기
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_camera);
+		// 가로화면 고정
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); 
 
-		mPreview = (SurfaceView) findViewById(R.id.surface);
-		mHolder = mPreview.getHolder();
-		mHolder.addCallback(this);
-		mVideo = (VideoView) findViewById(R.id.videoview);
-		mPlayBtn = (Button) findViewById(R.id.playBtn);
-		userId = (TextView) findViewById(R.id.userId);
-
-		Intent intent = getIntent();
-		String test = intent.getStringExtra("userId");
-		if (test != null) {
-			userId.setText(test);
-		}
-
-		mPreview.setVisibility(View.VISIBLE);
-		mVideo.setVisibility(View.INVISIBLE);
-
-		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-		mPlayBtn.setOnClickListener(new Button.OnClickListener() {
-			@Override
+		// preview surface
+		SurfaceView surView = (SurfaceView) findViewById(R.id.surface);
+		
+		Button startBtn = (Button) findViewById(R.id.startBtn);
+		Button stopBtn = (Button) findViewById(R.id.stopBtn);
+		
+		SurfaceHolder holder = surView.getHolder();
+		holder.addCallback(this);
+		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		
+		// handler
+		mHandler = new Handler(this);
+		
+		startBtn.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				if (mIsStart == false) {
-					String sd = Environment.getExternalStorageDirectory()
-							.getAbsolutePath();
-					fileIndex++;
-					Path = sd + "/video" + fileIndex + ".mp4";
-					if (mCamera != null) {
-						mCamera.stopPreview();
-						mCamera.release();
-						mCamera = null;
-						Log.e("CAM TEST", "#3 Release Camera  _---> OK!!!");
-					}
-					if (mRecorder == null) {
-						mRecorder = new MediaRecorder();
-					} else {
-						mRecorder.reset();
-					}
-					mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-					mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-					mRecorder
-							.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-					mRecorder
-							.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
-					mRecorder
-							.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-					mRecorder.setOutputFile(Path);
-					mRecorder.setPreviewDisplay(mHolder.getSurface());
-
-					try {
-						mRecorder.prepare();
-						mRecorder.start();
-					} catch (IllegalStateException e) {
-						Toast.makeText(CameraActivity.this, e.toString(), 1)
-								.show();
-						return;
-					} catch (IOException e) {
-						Toast.makeText(CameraActivity.this, e.toString(), 1)
-								.show();
-						return;
-					} catch (Exception e) {
-						Toast.makeText(CameraActivity.this, e.toString(), 1)
-								.show();
-						return;
-					}
-					mIsStart = true;
-					Toast.makeText(CameraActivity.this, "촬영을 시작합니다.", 1).show();
-					mPlayBtn.setText("Stop");
-				} else {
-					mRecorder.stop();
-					mRecorder.release();
-					mRecorder = null;
-					mIsStart = false;
-					Toast.makeText(CameraActivity.this, "저장되었습니다.", 1).show();
-					mPlayBtn.setText("Start");
-
-				}
+				startIntervalRecording();
+				Toast.makeText(CameraActivity.this, "촬영을 시작합니다.", 1).show();
 			}
-
+		});
+		
+		stopBtn.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				if (mTimer != null) {
+					mTimer.cancel();
+					mTimer = null;
+				}
+				stopMediaRecorder();
+				releaseMediaRecorder();
+				Toast.makeText(CameraActivity.this, "저장되었습니다.", 1).show();
+			}
 		});
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (mTimer != null) {
+			mTimer.cancel();
+			mTimer = null;
+		}
+		stopMediaRecorder();
+		releaseMediaRecorder();
+	}
+
+	protected void startIntervalRecording() {
+		mTimer = new CountDownTimer(10000, 1000) { // 10초동안 1초간격으로 줄어든다.
+			boolean recordStart = false;
+
+			public void onTick(long millisUntilFinished) {
+				if (!recordStart) {
+					recordStart = true;
+					mHandler.sendEmptyMessage(INIT_RECORDER);
+					mHandler.sendEmptyMessage(START_RECORDING);
+				}
+			}
+
+			public void onFinish() {
+				mHandler.sendEmptyMessage(STOP_RECORDING);
+				mHandler.sendEmptyMessage(RELEASE_RECORDER);
+				mHandler.sendEmptyMessage(START_INTERVAL_RECORD);
+			}
+		};
+		mTimer.start();
+	}
+
+	protected void initMediaRecorder() {
+
+		if (mSurfaceHolder == null) {
+			Log.e(TAG, "No Surface Holder");
+			return;
+		}
+		if (camera != null) {
+			camera.stopPreview();
+			camera.release();
+			camera = null;
+		}
+		if (mMediaRecorder == null) {
+			mMediaRecorder = new MediaRecorder();
+		}
+		
+		// 오디오와 영상 입력 형식 설정
+		mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+		mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+		
+		// 저장될 파일 지정
+		Path = getFilePath();
+		mMediaRecorder.setOutputFile(Path);
+		
+		// 오디오와 영상 인코더 설정
+		mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
+		mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		
+		// 영상 옵션 설정
+		mMediaRecorder.setVideoFrameRate(30);
+		mMediaRecorder.setVideoSize(640, 480);
+		
+		
+		//녹화도중에 녹화화면을 뷰에다가 출력하게 해주는 설정
+		mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
+		try {
+			mMediaRecorder.prepare();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			mMediaRecorder.release();
+			mMediaRecorder = null;
+		}
+	}
+
+	protected void releaseMediaRecorder() {
+		if (mMediaRecorder == null)
+			return;
+		mMediaRecorder.reset();
+		mMediaRecorder.release();
+		mMediaRecorder = null;
+	}
+
+	protected void startMediaRecorder() {
+		try {
+			if (mMediaRecorder != null) {
+				mMediaRecorder.start();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			mMediaRecorder.release();
+			mMediaRecorder = null;
+		}
+	}
+
+	protected void stopMediaRecorder() {
+		if (mMediaRecorder != null) {
+			mMediaRecorder.stop();
+		}
+	}
+
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		// do something
+		if (camera != null) {
+			Camera.Parameters parameters = camera.getParameters();
+			// 프리뷰 사이즈 값 재조정
+			parameters.setPreviewSize(width, height);
+			camera.setParameters(parameters);
+			// 프리뷰 다시 시작
+			camera.startPreview();
+		}
+	}
+
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
 			// 카메라 객체를 만든다
-			mCamera = Camera.open();
+			camera = Camera.open();
 
-			Camera.Parameters parameters = mCamera.getParameters();
+			Camera.Parameters parameters = camera.getParameters();
 			parameters.setRotation(90);
-			mCamera.setParameters(parameters);
+			camera.setParameters(parameters);
 			// 프리뷰 디스플레이를 담당한 서피스 홀더를 설정한다
-			mCamera.setPreviewDisplay(holder);
+			camera.setPreviewDisplay(holder);
 			// 프리뷰 콜백을 설정한다 - 프레임 설정이 가능하다.
 			/*
 			 * mCamera.setPreviewCallback(new PreviewCallback() {
@@ -142,40 +216,50 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-
+		
+		mSurfaceHolder = holder;
 	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-		// TODO Auto-generated method stub
-		// 서피스 변경되었을 때의 대응 루틴
-		if (mCamera != null) {
-			Camera.Parameters parameters = mCamera.getParameters();
-			// 프리뷰 사이즈 값 재조정
-			parameters.setPreviewSize(width, height);
-			mCamera.setParameters(parameters);
-			// 프리뷰 다시 시작
-			mCamera.startPreview();
-		}
-	}
-
-	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
+		mSurfaceHolder = null;
+	}
+	
+	public String getFilePath() {
+		
+		String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		sd += "/sensitiveRecorder";
+		
+		File file = new File(sd);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		
+		String path = sd + "/video" + timeStamp + ".mp4";
+		
+		return path;
 	}
 
-	public void onDestroy() {
-		super.onDestroy();
-
-		if (mCamera != null) {
-			mCamera.stopPreview();
-			// 카메라 객체 초기화
-			mCamera = null;
+	public boolean handleMessage(Message msg) {
+		switch (msg.what) {
+		case START_RECORDING:
+			startMediaRecorder();
+			return true;
+		case STOP_RECORDING:
+			stopMediaRecorder();
+			return true;
+		case INIT_RECORDER:
+			initMediaRecorder();
+			return true;
+		case RELEASE_RECORDER:
+			releaseMediaRecorder();
+			return true;
+		case START_INTERVAL_RECORD:
+			startIntervalRecording();
+			return true;
 		}
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
-		}
+		return false;
 	}
 }
