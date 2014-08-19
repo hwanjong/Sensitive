@@ -117,7 +117,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
 			}
 		};
 	
-	mTimer.start();
+		mTimer.start();
 	}
 
 	protected void initMediaRecorder() {
