@@ -39,5 +39,7 @@
         <activity android:name="WaitActivity"></activity>
         <activity android:name="LoginActivity"></activity>
         <activity android:name="CameraActivity"></activity>
+        <activity android:name="LVItem"></activity>
+        <activity android:name="CheckableRelative"></activity>
     </application>
 </manifest>
