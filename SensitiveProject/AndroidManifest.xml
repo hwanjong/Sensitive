@@ -41,5 +41,6 @@
         <activity android:name="CameraActivity"></activity>
         <activity android:name="LVItem"></activity>
         <activity android:name="CheckableRelative"></activity>
+        <activity android:name="SensorActivity"></activity>
     </application>
 </manifest>
