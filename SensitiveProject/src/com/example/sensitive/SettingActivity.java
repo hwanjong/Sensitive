@@ -26,11 +26,8 @@ public class SettingActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(SettingActivity.this, SelectSetActivity.class);
 				startActivity(intent);
-				
 			}
 		});
-		
-
 
 	}
 	
