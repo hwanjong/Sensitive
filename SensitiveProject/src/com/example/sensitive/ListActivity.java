@@ -1,6 +1,7 @@
 package com.example.sensitive;
 
 import java.util.ArrayList;
+
 import com.example.sensitive.R;
 
 import android.annotation.SuppressLint;
@@ -16,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,16 +44,19 @@ public class ListActivity extends Activity {
 		
 		list = new ArrayList<LVItem>();
 		
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일"));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일"));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일"));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일"));
+		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", false));
+		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", true));
+		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", true));
+		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", false));
 		//데이터를 받기 위해 데이터 어뎁터 객체 선언
 		adapter = new ListAdapter(this, list);
 		//리스트부에 어댑터 연결
 		
 		//list 객체 생성
 		this.listview.setAdapter(adapter);
+		listview.setItemsCanFocus(false);
+		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
 
 		bnt1.setOnClickListener(new OnClickListener() {
 			
@@ -116,21 +121,35 @@ public class ListActivity extends Activity {
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		}
 
-		@SuppressLint("InflateParams")
+		public class ViewHolder{
+			TextView date;
+			ImageView image;
+			CheckBox check;
+		}
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
+			ViewHolder holder = null;
+			
 			if(convertView == null){
 				convertView = mInflater.inflate(R.layout.activity_list_view, null);
-			} 
+				holder = new ViewHolder();
+				holder.check = (CheckBox)convertView.findViewById(R.id.check);
+				holder.image = (ImageView)convertView.findViewById(R.id.image);
+				holder.date = (TextView)convertView.findViewById(R.id.data);
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder)convertView.getTag();
+			}
 			item = this.getItem(position);
 			
 			if(item != null){
-				ImageView imv = (ImageView)convertView.findViewById(R.id.image);
-				TextView texv = (TextView)convertView.findViewById(R.id.data);
-				
-				imv.setImageResource(item.getImage());
-				texv.setText(item.getData());
+
+				holder.check.setChecked(item.isSelected());
+				holder.check.setTag(item);
+				holder.image.setImageResource(item.getImage());
+				holder.date.setText(item.getData());
 			}
 			
 			return convertView;
@@ -140,11 +159,13 @@ public class ListActivity extends Activity {
 	class LVItem{
 		private int image;
 		private String data;
+		boolean selected = false;
 		
-		public LVItem(Context context, int _image, String _data) {
+		public LVItem(Context context, int _image, String _data, boolean selected) {
 			super();
 			this.image = _image;
 			this.data = _data;
+			this.selected = selected;
 		}
 
 		public int getImage() {
@@ -154,6 +175,11 @@ public class ListActivity extends Activity {
 		public String getData() {
 			return data;
 		}
+
+		public boolean isSelected() {
+			return selected;
+		}
+		
 	}
 //	private CompoundButton.OnCheckedChangeListener checkChangeListener = new CompoundButton.OnCheckedChangeListener() {
 //		
