@@ -2,15 +2,17 @@ package com.example.sensitive;
 
 import java.util.ArrayList;
 
-import com.example.sensitive.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +24,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class ListActivity extends Activity {
 
 	ListView listview; //리스트뷰 선언
 	ListAdapter adapter; //데이터 연결
-	ArrayList<LVItem> list; //데이터 담을 자료구조
-	
+	ArrayList<LVItem> alist; //데이터 담을 자료구조
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,21 +44,20 @@ public class ListActivity extends Activity {
 		//리스트 뷰에 사용할 리스트뷰 연결
 		this.listview = (ListView) findViewById(R.id.listview);
 		
-		list = new ArrayList<LVItem>();
+		alist = new ArrayList<LVItem>();
 		
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", false));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", true));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", true));
-		list.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", false));
+		alist.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", false));
+		alist.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-11-월요일", false));
+		alist.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", false));
+		alist.add(new LVItem(getApplicationContext(), R.drawable.picture, "2014-08-21-목요일", false));
 		//데이터를 받기 위해 데이터 어뎁터 객체 선언
-		adapter = new ListAdapter(this, list);
+		adapter = new ListAdapter(this, alist);
 		//리스트부에 어댑터 연결
 		
 		//list 객체 생성
 		this.listview.setAdapter(adapter);
 		listview.setItemsCanFocus(false);
-		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		
+		listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);	
 
 		bnt1.setOnClickListener(new OnClickListener() {
 			
@@ -79,7 +80,15 @@ public class ListActivity extends Activity {
 	                    "삭제 되었습니다.", Toast.LENGTH_SHORT).show();
 	                }
 	            })
-	            .show();				
+	            .show();		
+//				SparseBooleanArray checkArr = listview.getCheckedItemPositions();
+//				if(checkArr.size() != 0){
+//					for(int i = listview.getCount() -1; i > -1; i--){
+//						if(checkArr.get(i)){
+//							alist.remove(i);
+//						}
+//					}
+//				}
 			}
 		});	
 		
@@ -104,7 +113,8 @@ public class ListActivity extends Activity {
 	                    "삭제 되었습니다.", Toast.LENGTH_SHORT).show();
 	                }
 	            })
-	            .show();				
+	            .show();	
+				
 			}
 		});		
 		
@@ -114,41 +124,105 @@ public class ListActivity extends Activity {
 
 		private LayoutInflater mInflater;
 		private LVItem item;
+		private ArrayList<Integer> listItems; //체크된 아이템을 저장할 list
+		private ArrayList<LVItem> listItem;
+		
 		
 		public ListAdapter(Context context,	ArrayList<LVItem> objects) {
 			super(context, 0, objects);
 			// TODO Auto-generated constructor stub
 			mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			//listItems = new ArrayList<Integer>();
+			listItem = objects;
 		}
 
 		public class ViewHolder{
 			TextView date;
-			ImageView image;
+//			VideoView mVideoView;
 			CheckBox check;
+			ImageView image;
 		}
 		
 		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return listItem.size();
+		}
+
+		@SuppressLint("InflateParams")
+		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
+//			final int checkBoxPosition = position;
 			ViewHolder holder = null;
 			
 			if(convertView == null){
 				convertView = mInflater.inflate(R.layout.activity_list_view, null);
 				holder = new ViewHolder();
 				holder.check = (CheckBox)convertView.findViewById(R.id.check);
-				holder.image = (ImageView)convertView.findViewById(R.id.image);
+//				holder.mVideoView = (VideoView)convertView.findViewById(R.id.videoView);
+				holder.image = (ImageView)convertView.findViewById(R.id.imageBnt);
 				holder.date = (TextView)convertView.findViewById(R.id.data);
+
 				convertView.setTag(holder);
+
 			} else {
 				holder = (ViewHolder)convertView.getTag();
 			}
 			item = this.getItem(position);
 			
 			if(item != null){
-
-				holder.check.setChecked(item.isSelected());
-				holder.check.setTag(item);
+//				//체크박스가 null이 아니라면 
+//				if(holder.check != null){
+//					holder.check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//						
+//						@Override
+//						public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//							// TODO Auto-generated method stub
+//							if(isChecked){//체크박스가 체크될 때 
+//								for(int i = 0; i < listItems.size(); i++){
+//									if(listItems.get(i) == checkBoxPosition){
+//										return;
+//									}
+//								}
+//								listItems.add(checkBoxPosition);
+//							} else{ //체크박스 해제될 때
+//								for(int i = 0; i < listItems.size(); i++){
+//									if(listItems.get(i) == checkBoxPosition){
+//										listItems.remove(i);
+//										break;
+//									}
+//								}
+//							}
+//						}
+//					});	
+//					//체크된 아이템인지 판단 할 boolean 변수
+//					boolean isChecked = false;
+//					//만약 체크된 아이템 이라면
+//					for(int i = 0; i < listItems.size(); i++){
+//						if(listItems.get(i) == checkBoxPosition){
+//							holder.check.setChecked(true);
+//							isChecked = false;
+//							break;
+//						}
+//					}
+//					//아니라면 체크 안함
+//					if(!isChecked){
+//						holder.check.setChecked(false);
+//					}
+//				}
+				holder.check.setChecked(false);
+				holder.check.setTag(item.isSelected());
 				holder.image.setImageResource(item.getImage());
+				holder.image.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Intent it = new Intent(ListActivity.this, PlayerListActivity.class);
+						startActivity(it);
+					}
+				});
 				holder.date.setText(item.getData());
 			}
 			
@@ -159,7 +233,7 @@ public class ListActivity extends Activity {
 	class LVItem{
 		private int image;
 		private String data;
-		boolean selected = false;
+		boolean selected;
 		
 		public LVItem(Context context, int _image, String _data, boolean selected) {
 			super();
@@ -179,32 +253,9 @@ public class ListActivity extends Activity {
 		public boolean isSelected() {
 			return selected;
 		}
-		
-	}
-//	private CompoundButton.OnCheckedChangeListener checkChangeListener = new CompoundButton.OnCheckedChangeListener() {
-//		
-//		@Override
-//		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//			// TODO Auto-generated method stub
-//			switch (buttonView.getId()){
-//			case R.id.check:
-//				if(isChecked){
-//					Toast.makeText(ListActivity.this, "선택 되었음", Toast.LENGTH_SHORT).show();
-//					
-//				} else {
-//					Toast.makeText(ListActivity.this, "해제되었음", Toast.LENGTH_SHORT).show();	
-//				}
-//				break;
-//			case R.id.check2:
-//				if(isChecked){
-//					Toast.makeText(ListActivity.this, "선택 되었음", Toast.LENGTH_SHORT).show();
-//				} else {
-//					Toast.makeText(ListActivity.this, "해제되었음", Toast.LENGTH_SHORT).show();	
-//				}
-//				break;
-//
-//				}
-//			}
-//		};
 
+		public void setSelected(boolean selected) {
+			this.selected = selected;
+		}		
+	}
 }

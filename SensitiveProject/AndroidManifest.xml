@@ -42,5 +42,6 @@
         <activity android:name="LVItem"></activity>
         <activity android:name="CheckableRelative"></activity>
         <activity android:name="SensorActivity"></activity>
+        <activity android:name="PlayerListActivity"></activity>
     </application>
 </manifest>

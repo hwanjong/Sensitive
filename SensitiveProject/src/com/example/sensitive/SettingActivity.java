@@ -17,7 +17,6 @@ public class SettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		makeSpinner();
-		
 		Button btn1 = (Button)findViewById(R.id.selectButton);
 		btn1.setOnClickListener(new OnClickListener() {
 
