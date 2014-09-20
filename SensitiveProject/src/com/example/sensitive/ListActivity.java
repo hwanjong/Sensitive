@@ -68,27 +68,28 @@ public class ListActivity extends Activity {
 	            
 				dlg.setTitle("삭제")
 	            .setMessage("체크된 동영상 삭제")
-	            .setPositiveButton("NO", new DialogInterface.OnClickListener() {
+	            .setPositiveButton("취소", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) {
 	                    Toast.makeText(ListActivity.this,
-	                    "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
+	                    "삭제 취소.", Toast.LENGTH_SHORT).show();
+	                    dialog.cancel();
 	                }
 	            })
-	            .setNegativeButton("YES", new DialogInterface.OnClickListener() {
+	            .setNegativeButton("확인", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) {
 	                    Toast.makeText(ListActivity.this,
-	                    "삭제 되었습니다.", Toast.LENGTH_SHORT).show();
+	                    "삭제.", Toast.LENGTH_SHORT).show();
+//	    				SparseBooleanArray checkArr = listview.getCheckedItemPositions();
+//	    				if(checkArr.size() != 0){
+//	    					for(int i = listview.getCount() -1; i > -1; i--){
+//	    						if(checkArr.get(i)){
+//	    							alist.remove(i);
+//	    						}
+//	    					}
+//	    				}
 	                }
 	            })
 	            .show();		
-//				SparseBooleanArray checkArr = listview.getCheckedItemPositions();
-//				if(checkArr.size() != 0){
-//					for(int i = listview.getCount() -1; i > -1; i--){
-//						if(checkArr.get(i)){
-//							alist.remove(i);
-//						}
-//					}
-//				}
 			}
 		});	
 		
@@ -101,13 +102,13 @@ public class ListActivity extends Activity {
 	            
 				dlg.setTitle("전체삭제")
 	            .setMessage("체크된 동영상 전체삭제")
-	            .setPositiveButton("NO", new DialogInterface.OnClickListener() {
+	            .setPositiveButton("취소", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) {
 	                    Toast.makeText(ListActivity.this,
 	                    "삭제가 취소되었습니다.", Toast.LENGTH_SHORT).show();
 	                }
 	            })
-	            .setNegativeButton("YES", new DialogInterface.OnClickListener() {
+	            .setNegativeButton("확인", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) {
 	                    Toast.makeText(ListActivity.this,
 	                    "삭제 되었습니다.", Toast.LENGTH_SHORT).show();
@@ -138,7 +139,6 @@ public class ListActivity extends Activity {
 
 		public class ViewHolder{
 			TextView date;
-//			VideoView mVideoView;
 			CheckBox check;
 			ImageView image;
 		}
@@ -153,14 +153,13 @@ public class ListActivity extends Activity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
-//			final int checkBoxPosition = position;
+
 			ViewHolder holder = null;
 			
 			if(convertView == null){
 				convertView = mInflater.inflate(R.layout.activity_list_view, null);
 				holder = new ViewHolder();
 				holder.check = (CheckBox)convertView.findViewById(R.id.check);
-//				holder.mVideoView = (VideoView)convertView.findViewById(R.id.videoView);
 				holder.image = (ImageView)convertView.findViewById(R.id.imageBnt);
 				holder.date = (TextView)convertView.findViewById(R.id.data);
 
@@ -172,45 +171,6 @@ public class ListActivity extends Activity {
 			item = this.getItem(position);
 			
 			if(item != null){
-//				//체크박스가 null이 아니라면 
-//				if(holder.check != null){
-//					holder.check.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//						
-//						@Override
-//						public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//							// TODO Auto-generated method stub
-//							if(isChecked){//체크박스가 체크될 때 
-//								for(int i = 0; i < listItems.size(); i++){
-//									if(listItems.get(i) == checkBoxPosition){
-//										return;
-//									}
-//								}
-//								listItems.add(checkBoxPosition);
-//							} else{ //체크박스 해제될 때
-//								for(int i = 0; i < listItems.size(); i++){
-//									if(listItems.get(i) == checkBoxPosition){
-//										listItems.remove(i);
-//										break;
-//									}
-//								}
-//							}
-//						}
-//					});	
-//					//체크된 아이템인지 판단 할 boolean 변수
-//					boolean isChecked = false;
-//					//만약 체크된 아이템 이라면
-//					for(int i = 0; i < listItems.size(); i++){
-//						if(listItems.get(i) == checkBoxPosition){
-//							holder.check.setChecked(true);
-//							isChecked = false;
-//							break;
-//						}
-//					}
-//					//아니라면 체크 안함
-//					if(!isChecked){
-//						holder.check.setChecked(false);
-//					}
-//				}
 				holder.check.setChecked(false);
 				holder.check.setTag(item.isSelected());
 				holder.image.setImageResource(item.getImage());
