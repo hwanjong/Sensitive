@@ -14,34 +14,6 @@
         android:text="시동 OFF"
         android:textSize="24sp"
         android:textStyle="bold" />
-    
-        <TextView 
-        	android:id="@+id/layout"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="충격 감지로 녹화중"
-        	android:textSize="60sp"
-        	android:padding="30dp"
-        	android:layout_marginTop="80dp"
-        	android:layout_marginBottom="60dp"
-        	android:gravity="center"/>
-        
-		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="vertical">
-  		   	<TextView 
-      			android:id="@+id/sub_layout"
-        		android:layout_width="wrap_content"
-        		android:layout_height="wrap_content"
-        		android:layout_marginTop="40dp"
-        		android:padding="20dip"
-        		android:text="XX초 후 녹화 종료"
-        		android:textSize="20sp"
-        		android:background="#000000"
-        		android:textColor="#ffffff"
-        		android:layout_gravity="center"/>		    
-		</LinearLayout>
 
 </LinearLayout>
 	
