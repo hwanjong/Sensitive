@@ -11,19 +11,29 @@ import android.widget.Spinner;
 
 public class SettingActivity extends Activity {
 
-	/** Called when the activity is first created. */
+	Button btn1,btn2;;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		makeSpinner();
-		Button btn1 = (Button)findViewById(R.id.selectButton);
+		btn1 = (Button)findViewById(R.id.selectButton);
 		btn1.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(SettingActivity.this, SelectSetActivity.class);
+				startActivity(intent);
+			}
+		});
+		btn2 = (Button)findViewById(R.id.sensorButton);
+		btn2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(SettingActivity.this, SensorActivity.class);
 				startActivity(intent);
 			}
 		});
