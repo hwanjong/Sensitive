@@ -31,6 +31,7 @@ public class ListActivity extends Activity {
 	ListView listview; //리스트뷰 선언
 	ListAdapter adapter; //데이터 연결
 	ArrayList<LVItem> alist; //데이터 담을 자료구조
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
